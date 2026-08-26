@@ -285,11 +285,16 @@ class HierarchicalAttentionPool(nn.Module):
 
 class SchedulerHead(nn.Module):
     """
-    2-layer MLP head per IMC scheduling policy → ŷ_S ∈ [0,1].
+    2-layer MLP head per IMC scheduling policy.
 
-    MLP (not linear) heads are used because IMC feasibility conditions involve
-    mode-switch behaviour and dual-mode interference that create non-linearly
-    separable decision boundaries in the shared latent space.
+    forward() returns a tuple: (probability, raw_logit).
+      - probability : sigmoid(logit) ∈ [0,1]  — used for FP penalty and inference
+      - raw_logit   : pre-sigmoid scalar       — used for numerically stable BCE
+
+    Separating these allows the loss to use binary_cross_entropy_with_logits
+    (logit-space BCE) rather than binary_cross_entropy on sigmoid outputs,
+    avoiding the log(0) gradient explosion when sigmoid saturates in float32
+    (occurs when |logit| > 88.72, i.e. sigmoid = 0.0 or 1.0 exactly).
     """
 
     def __init__(self, in_dim: int, hidden: int, n_layers: int = 2,
@@ -304,9 +309,16 @@ class SchedulerHead(nn.Module):
         layers.append(nn.Linear(cur, 1))
         self.mlp = nn.Sequential(*layers)
 
-    def forward(self, c: torch.Tensor) -> torch.Tensor:
-        """c: (B, in_dim) → (B,) probabilities in [0,1]"""
-        return torch.sigmoid(self.mlp(c).squeeze(-1))
+    def forward(self, c: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+        """
+        c: (B, in_dim)
+        Returns:
+            prob   : (B,) probabilities in [0,1]
+            logit  : (B,) raw pre-sigmoid values
+        """
+        logit = self.mlp(c).squeeze(-1)        # (B,)
+        prob  = torch.sigmoid(logit)           # (B,)
+        return prob, logit
 
 
 # =============================================================================
@@ -503,9 +515,20 @@ class IMCFormer(nn.Module):
         c = torch.cat([c_lo, c_hi, z], dim=-1)   # (B, 576)
 
         # ── (7) Scheduler heads ─────────────────────────────────────────────
-        logits = {name: head(c) for name, head in self.heads.items()}
+        probs      = {}
+        raw_logits = {}
+        for name, head in self.heads.items():
+            prob, logit    = head(c)
+            probs[name]    = prob
+            raw_logits[name] = logit
 
-        return {"logits": logits, "c_lo": c_lo, "c_hi": c_hi, "c_fused": c}
+        return {
+            "logits":     probs,       # dict: name → (B,) probabilities [0,1]
+            "raw_logits": raw_logits,  # dict: name → (B,) pre-sigmoid logits
+            "c_lo":       c_lo,
+            "c_hi":       c_hi,
+            "c_fused":    c,
+        }
 
     @torch.no_grad()
     def predict(self, batch: Dict, threshold: float = 0.5) -> Dict[str, torch.Tensor]:

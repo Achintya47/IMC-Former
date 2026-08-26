@@ -263,8 +263,9 @@ class IMCFormerTrainer:
             batch = self._to_device(batch)
 
             # ── Forward ────────────────────────────────────────────────────
-            out    = self.model(batch)
-            logits = out["logits"]
+            out        = self.model(batch)
+            logits     = out["logits"]      # probabilities
+            raw_logits = out["raw_logits"]  # pre-sigmoid, for stable BCE
 
             # Stack probabilities into (B, S)
             prob_tensor = torch.stack(
@@ -273,10 +274,11 @@ class IMCFormerTrainer:
 
             # ── Loss ───────────────────────────────────────────────────────
             loss_dict = self.criterion(
-                logits   = logits,
-                labels   = batch["labels"],
-                features = batch["features"],
-                mask     = batch["mask"],
+                logits     = logits,
+                labels     = batch["labels"],
+                features   = batch["features"],
+                mask       = batch["mask"],
+                raw_logits = raw_logits,
             )
             loss = loss_dict["total"]
 
@@ -336,18 +338,20 @@ class IMCFormerTrainer:
 
         for batch in loader:
             batch = self._to_device(batch)
-            out   = self.model(batch)
-            logits = out["logits"]
+            out        = self.model(batch)
+            logits     = out["logits"]
+            raw_logits = out["raw_logits"]
 
             prob_tensor = torch.stack(
                 [logits[name] for name in self.cfg.model.scheduler_names], dim=1
             )
 
             loss_dict = self.criterion(
-                logits   = logits,
-                labels   = batch["labels"],
-                features = batch["features"],
-                mask     = batch["mask"],
+                logits     = logits,
+                labels     = batch["labels"],
+                features   = batch["features"],
+                mask       = batch["mask"],
+                raw_logits = raw_logits,
             )
             total_loss += loss_dict["total"].item()
             n_batches  += 1
