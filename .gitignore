@@ -1,4 +1,3 @@
 *.csv
 \venv
-\data
 \raw_data
