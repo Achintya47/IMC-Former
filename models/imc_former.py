@@ -60,13 +60,28 @@ class TaskEncoder(nn.Module):
 
 
 # =============================================================================
-# 2. Masked Transformer Block
+# 2. Masked Transformer Block  (BUG-FIXED: all-masked-row NaN guard)
 # =============================================================================
 
 class MaskedTransformerBlock(nn.Module):
     """
     Standard transformer encoder block with padding-mask support.
     key_padding_mask follows PyTorch convention: True = position is IGNORED.
+
+    NaN guard (defense-in-depth, not the confirmed root cause):
+        If, for some batch row, EVERY key position is masked (e.g. a task set
+        that is entirely HI-criticality has zero real tasks in the LO stream),
+        a naive softmax over an all -inf row is 0/0 -> NaN. As of PyTorch
+        ~1.12+, nn.MultiheadAttention already detects this internally and
+        returns zero for such rows instead of NaN (verified empirically against
+        this exact failure mode on torch 2.13). So this is very unlikely to be
+        the cause of a NaN on a current PyTorch install. The explicit guard
+        below (unmask at least one key, then zero the result) is kept anyway
+        because it is zero-cost, makes the invariant explicit rather than
+        implicit in a framework internal, and protects against older PyTorch
+        versions or future API changes where the internal guard may not exist.
+        It should NOT be assumed to be the fix for the training crash unless
+        confirmed against your actual PyTorch version and data.
     """
 
     def __init__(self, d_model: int, n_heads: int, ffn_dim: int,
@@ -86,16 +101,27 @@ class MaskedTransformerBlock(nn.Module):
     def forward(self, x: torch.Tensor,
                 key_padding_mask: Optional[torch.Tensor] = None) -> torch.Tensor:
         """x: (B, N, d) → (B, N, d)"""
-        attn_out, _ = self.self_attn(x, x, x,
-                                     key_padding_mask=key_padding_mask,
-                                     need_weights=False)
+        if key_padding_mask is not None:
+            # Rows where every key is masked would otherwise produce NaN.
+            all_masked = key_padding_mask.all(dim=1, keepdim=True)          # (B, 1)
+            safe_mask  = key_padding_mask & ~all_masked                     # (B, N)
+            attn_out, _ = self.self_attn(x, x, x,
+                                         key_padding_mask=safe_mask,
+                                         need_weights=False)
+            if all_masked.any():
+                zero_rows = all_masked.squeeze(-1)                          # (B,)
+                attn_out  = attn_out.clone()
+                attn_out[zero_rows] = 0.0
+        else:
+            attn_out, _ = self.self_attn(x, x, x, need_weights=False)
+
         x = self.norm1(x + attn_out)
         x = self.norm2(x + self.ffn(x))
         return x
 
 
 # =============================================================================
-# 3. Masked Cross-Attention Block
+# 3. Masked Cross-Attention Block  (BUG-FIXED: all-masked-kv NaN guard)
 # =============================================================================
 
 class MaskedCrossAttentionBlock(nn.Module):
@@ -113,6 +139,14 @@ class MaskedCrossAttentionBlock(nn.Module):
       (b) LO-on-HI: LO tasks (Q) query HI tasks (K/V).
           Captures how HI mandatory execution constrains remaining capacity
           for LO optional execution in LO mode.
+
+    NaN guard:
+        If an entire task set has no real tasks in the opposite stream (e.g.
+        an all-HI task set has zero LO tasks), kv_mask is fully True for that
+        row and nn.MultiheadAttention would produce NaN for every query in
+        that row (see MaskedTransformerBlock for the same failure mode). The
+        same "unmask at least one key, then zero the result" guard is applied
+        here on the kv side.
     """
 
     def __init__(self, d_model: int, n_heads: int, dropout: float = 0.1):
@@ -136,11 +170,23 @@ class MaskedCrossAttentionBlock(nn.Module):
         Returns:
             out: (B, N_q, d) — query enriched with kv context
         """
-        attn_out, _ = self.cross_attn(
-            query, key_value, key_value,
-            key_padding_mask=kv_mask,
-            need_weights=False,
-        )
+        if kv_mask is not None:
+            all_masked   = kv_mask.all(dim=1, keepdim=True)                 # (B, 1)
+            safe_kv_mask = kv_mask & ~all_masked                            # (B, N_kv)
+            attn_out, _ = self.cross_attn(
+                query, key_value, key_value,
+                key_padding_mask=safe_kv_mask,
+                need_weights=False,
+            )
+            if all_masked.any():
+                zero_rows = all_masked.squeeze(-1)                          # (B,)
+                attn_out  = attn_out.clone()
+                attn_out[zero_rows] = 0.0
+        else:
+            attn_out, _ = self.cross_attn(
+                query, key_value, key_value,
+                need_weights=False,
+            )
         out = self.norm(query + attn_out)
         return out
 

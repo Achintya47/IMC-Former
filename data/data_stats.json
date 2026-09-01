@@ -1,0 +1,690 @@
+{
+  "config": {
+    "input_dir": "C:\\Users\\anura\\OneDrive\\Desktop\\Scheduling\\Scheduling New Work\\Data_Diagnostics\\fix_data\\generated_datasets\\_raw_tmp",
+    "deadline_mode": "implicit",
+    "train_ns": [
+      4,
+      8,
+      12,
+      16,
+      20
+    ],
+    "gen_small": [
+      24,
+      28
+    ],
+    "gen_medium": [
+      32,
+      40
+    ],
+    "gen_large": [
+      48,
+      64
+    ],
+    "gen_xlarge": [
+      128
+    ],
+    "gen_xxlarge": [
+      512,
+      1024
+    ],
+    "train_frac": 0.7,
+    "val_frac": 0.15,
+    "test_frac": 0.15000000000000005,
+    "seed": 42,
+    "max_rows_per_n": 400000,
+    "gen_max_rows": null,
+    "joint_distribution_preserved": true,
+    "balancing_performed": false
+  },
+  "splits": {
+    "train_n4": {
+      "n": 4,
+      "rows": 280000,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.2721142857142857,
+        "TT_Merge_Schedulable": 0.8751821428571429,
+        "IMC_PnG_Schedulable": 0.32397857142857145,
+        "EDF_IMC_Schedulable": 0.32323928571428573
+      },
+      "max_joint_fraction_error": 2.1428571428394605e-06
+    },
+    "val_in_dist_n4": {
+      "n": 4,
+      "rows": 59998,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.27210907030234344,
+        "TT_Merge_Schedulable": 0.8751958398613288,
+        "IMC_PnG_Schedulable": 0.32394413147104906,
+        "EDF_IMC_Schedulable": 0.3232274409146972
+      },
+      "max_joint_fraction_error": 2.361395379846254e-05
+    },
+    "test_in_dist_n4": {
+      "n": 4,
+      "rows": 60002,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.2721242625245825,
+        "TT_Merge_Schedulable": 0.8751874937502083,
+        "IMC_PnG_Schedulable": 0.323989200359988,
+        "EDF_IMC_Schedulable": 0.32325589147028433
+      },
+      "max_joint_fraction_error": 1.3612712909560898e-05
+    },
+    "train_n8": {
+      "n": 8,
+      "rows": 279999,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.20453287333169046,
+        "TT_Merge_Schedulable": 0.8376672773831335,
+        "IMC_PnG_Schedulable": 0.2691509612534331,
+        "EDF_IMC_Schedulable": 0.26778309922535437
+      },
+      "max_joint_fraction_error": 2.7694206050643544e-06
+    },
+    "val_in_dist_n8": {
+      "n": 8,
+      "rows": 59999,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.20453674227903798,
+        "TT_Merge_Schedulable": 0.8376806280104668,
+        "IMC_PnG_Schedulable": 0.2691544859080985,
+        "EDF_IMC_Schedulable": 0.2677877964632744
+      },
+      "max_joint_fraction_error": 7.924048734064826e-06
+    },
+    "test_in_dist_n8": {
+      "n": 8,
+      "rows": 60002,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.20452651578280723,
+        "TT_Merge_Schedulable": 0.8376554114862838,
+        "IMC_PnG_Schedulable": 0.2691743608546382,
+        "EDF_IMC_Schedulable": 0.26779107363087895
+      },
+      "max_joint_fraction_error": 2.084713842875896e-05
+    },
+    "train_n12": {
+      "n": 12,
+      "rows": 279999,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.19810785038517995,
+        "TT_Merge_Schedulable": 0.7845492305329662,
+        "IMC_PnG_Schedulable": 0.26059378783495657,
+        "EDF_IMC_Schedulable": 0.2590830681538148
+      },
+      "max_joint_fraction_error": 1.893488905335694e-06
+    },
+    "val_in_dist_n12": {
+      "n": 12,
+      "rows": 59999,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.19811996866614442,
+        "TT_Merge_Schedulable": 0.7845464091068185,
+        "IMC_PnG_Schedulable": 0.2606043434057234,
+        "EDF_IMC_Schedulable": 0.25908765146085766
+      },
+      "max_joint_fraction_error": 9.911373522894507e-06
+    },
+    "test_in_dist_n12": {
+      "n": 12,
+      "rows": 60002,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.19811006299790007,
+        "TT_Merge_Schedulable": 0.7845405153161561,
+        "IMC_PnG_Schedulable": 0.26060797973400884,
+        "EDF_IMC_Schedulable": 0.2590913636212126
+      },
+      "max_joint_fraction_error": 9.338855371465726e-06
+    },
+    "train_n16": {
+      "n": 16,
+      "rows": 280000,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.15873571428571429,
+        "TT_Merge_Schedulable": 0.7753178571428572,
+        "IMC_PnG_Schedulable": 0.223075,
+        "EDF_IMC_Schedulable": 0.221325
+      },
+      "max_joint_fraction_error": 2.1428571428572414e-06
+    },
+    "val_in_dist_n16": {
+      "n": 16,
+      "rows": 59999,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.15873597893298222,
+        "TT_Merge_Schedulable": 0.7753295888264804,
+        "IMC_PnG_Schedulable": 0.22307038450640845,
+        "EDF_IMC_Schedulable": 0.22133702228370472
+      },
+      "max_joint_fraction_error": 9.163611060184325e-06
+    },
+    "test_in_dist_n16": {
+      "n": 16,
+      "rows": 60001,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.15873068782186964,
+        "TT_Merge_Schedulable": 0.7753037449375844,
+        "IMC_PnG_Schedulable": 0.22307961533974432,
+        "EDF_IMC_Schedulable": 0.2213296445059249
+      },
+      "max_joint_fraction_error": 1.180401159983635e-05
+    },
+    "train_n20": {
+      "n": 20,
+      "rows": 280000,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.11910714285714286,
+        "TT_Merge_Schedulable": 0.7661964285714286,
+        "IMC_PnG_Schedulable": 0.18025,
+        "EDF_IMC_Schedulable": 0.17842857142857144
+      },
+      "max_joint_fraction_error": 2.191119522154672e-06
+    },
+    "val_in_dist_n20": {
+      "n": 20,
+      "rows": 60000,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.11911666666666666,
+        "TT_Merge_Schedulable": 0.7661833333333333,
+        "IMC_PnG_Schedulable": 0.18025,
+        "EDF_IMC_Schedulable": 0.17843333333333333
+      },
+      "max_joint_fraction_error": 9.862600343503447e-06
+    },
+    "test_in_dist_n20": {
+      "n": 20,
+      "rows": 60001,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.1191146814219763,
+        "TT_Merge_Schedulable": 0.7661872302128298,
+        "IMC_PnG_Schedulable": 0.18026366227229546,
+        "EDF_IMC_Schedulable": 0.17844702588290196
+      },
+      "max_joint_fraction_error": 1.0035224324411729e-05
+    },
+    "train": {
+      "rows": 1399998,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.19051955788508268,
+        "TT_Merge_Schedulable": 0.8077825825465464,
+        "IMC_PnG_Schedulable": 0.25140964487092127,
+        "EDF_IMC_Schedulable": 0.24997178567397954
+      },
+      "joint_distribution": {
+        "0000": {
+          "count": 260384,
+          "fraction": 0.1859888371269102
+        },
+        "0001": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "0010": {
+          "count": 231,
+          "fraction": 0.00016500023571462246
+        },
+        "0011": {
+          "count": 7707,
+          "fraction": 0.005505007864296949
+        },
+        "0100": {
+          "count": 787638,
+          "fraction": 0.5625993751419645
+        },
+        "0101": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "0110": {
+          "count": 1780,
+          "fraction": 0.0012714303877576969
+        },
+        "0111": {
+          "count": 75531,
+          "fraction": 0.05395079135827337
+        },
+        "1000": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1001": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1010": {
+          "count": 1,
+          "fraction": 7.142867346953353e-07
+        },
+        "1011": {
+          "count": 781,
+          "fraction": 0.0005578579397970568
+        },
+        "1100": {
+          "count": 3,
+          "fraction": 2.142860204086006e-06
+        },
+        "1101": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1110": {
+          "count": 1,
+          "fraction": 7.142867346953353e-07
+        },
+        "1111": {
+          "count": 265941,
+          "fraction": 0.18995812851161217
+        }
+      },
+      "source_n": [
+        4,
+        8,
+        12,
+        16,
+        20
+      ]
+    },
+    "val_in_dist": {
+      "rows": 299995,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.19052317538625643,
+        "TT_Merge_Schedulable": 0.8077867964466074,
+        "IMC_PnG_Schedulable": 0.2514041900698345,
+        "EDF_IMC_Schedulable": 0.24997416623610394
+      },
+      "joint_distribution": {
+        "0000": {
+          "count": 55795,
+          "fraction": 0.18598643310721846
+        },
+        "0001": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "0010": {
+          "count": 49,
+          "fraction": 0.00016333605560092668
+        },
+        "0011": {
+          "count": 1652,
+          "fraction": 0.005506758445974099
+        },
+        "0100": {
+          "count": 168779,
+          "fraction": 0.5626060434340572
+        },
+        "0101": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "0110": {
+          "count": 380,
+          "fraction": 0.0012666877781296354
+        },
+        "0111": {
+          "count": 16184,
+          "fraction": 0.05394756579276321
+        },
+        "1000": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1001": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1010": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1011": {
+          "count": 167,
+          "fraction": 0.0005566759445990767
+        },
+        "1100": {
+          "count": 1,
+          "fraction": 3.3333888898148304e-06
+        },
+        "1101": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1110": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1111": {
+          "count": 56988,
+          "fraction": 0.18996316605276756
+        }
+      },
+      "source_n": [
+        4,
+        8,
+        12,
+        16,
+        20
+      ]
+    },
+    "test_in_dist": {
+      "rows": 300008,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.19052158609103756,
+        "TT_Merge_Schedulable": 0.8077751259966401,
+        "IMC_PnG_Schedulable": 0.2514232953787899,
+        "EDF_IMC_Schedulable": 0.24998333377776594
+      },
+      "joint_distribution": {
+        "0000": {
+          "count": 55798,
+          "fraction": 0.1859883736433695
+        },
+        "0001": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "0010": {
+          "count": 50,
+          "fraction": 0.00016666222234073758
+        },
+        "0011": {
+          "count": 1653,
+          "fraction": 0.005509853070584784
+        },
+        "0100": {
+          "count": 168780,
+          "fraction": 0.5625849977333938
+        },
+        "0101": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "0110": {
+          "count": 382,
+          "fraction": 0.001273299378683235
+        },
+        "0111": {
+          "count": 16187,
+          "fraction": 0.053955227860590385
+        },
+        "1000": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1001": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1010": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1011": {
+          "count": 168,
+          "fraction": 0.0005599850670648783
+        },
+        "1100": {
+          "count": 1,
+          "fraction": 3.3332444468147515e-06
+        },
+        "1101": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1110": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1111": {
+          "count": 56989,
+          "fraction": 0.18995826777952587
+        }
+      },
+      "source_n": [
+        4,
+        8,
+        12,
+        16,
+        20
+      ]
+    },
+    "gen_small": {
+      "rows": 572700,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.16903614457831326,
+        "TT_Merge_Schedulable": 0.7066614283219835,
+        "IMC_PnG_Schedulable": 0.23167976252837436,
+        "EDF_IMC_Schedulable": 0.2299441243233805
+      },
+      "joint_distribution": {
+        "0000": {
+          "count": 164569,
+          "fraction": 0.2873563820499389
+        },
+        "0001": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "0010": {
+          "count": 134,
+          "fraction": 0.00023397939584424656
+        },
+        "0011": {
+          "count": 3155,
+          "fraction": 0.0055089924917059545
+        },
+        "0100": {
+          "count": 275448,
+          "fraction": 0.48096385542168674
+        },
+        "0101": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "0110": {
+          "count": 860,
+          "fraction": 0.0015016588091496422
+        },
+        "0111": {
+          "count": 31727,
+          "fraction": 0.05539898725336127
+        },
+        "1000": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1001": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1010": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1011": {
+          "count": 137,
+          "fraction": 0.0002392177405273267
+        },
+        "1100": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1101": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1110": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1111": {
+          "count": 96670,
+          "fraction": 0.16879692683778594
+        }
+      },
+      "source_n": [
+        24,
+        28
+      ]
+    },
+    "gen_medium": {
+      "rows": 458850,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.14896153427045875,
+        "TT_Merge_Schedulable": 0.7442127056772365,
+        "IMC_PnG_Schedulable": 0.21840688678217282,
+        "EDF_IMC_Schedulable": 0.21642366786531547
+      },
+      "joint_distribution": {
+        "0000": {
+          "count": 114777,
+          "fraction": 0.2501405688133377
+        },
+        "0001": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "0010": {
+          "count": 118,
+          "fraction": 0.0002571646507573281
+        },
+        "0011": {
+          "count": 2440,
+          "fraction": 0.005317641930914242
+        },
+        "0100": {
+          "count": 243857,
+          "fraction": 0.5314525444044895
+        },
+        "0101": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "0110": {
+          "count": 792,
+          "fraction": 0.0017260542661000327
+        },
+        "0111": {
+          "count": 28515,
+          "fraction": 0.06214449166394247
+        },
+        "1000": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1001": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1010": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1011": {
+          "count": 33,
+          "fraction": 7.191892775416803e-05
+        },
+        "1100": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1101": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1110": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1111": {
+          "count": 68318,
+          "fraction": 0.1488896153427046
+        }
+      },
+      "source_n": [
+        32,
+        40
+      ]
+    },
+    "gen_large": {
+      "rows": 227700,
+      "class_balance": {
+        "AMC_IMC_Schedulable": 0.17898111550285464,
+        "TT_Merge_Schedulable": 0.7568159859464207,
+        "IMC_PnG_Schedulable": 0.25795783926218707,
+        "EDF_IMC_Schedulable": 0.25608256477821695
+      },
+      "joint_distribution": {
+        "0000": {
+          "count": 54057,
+          "fraction": 0.2374044795783926
+        },
+        "0001": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "0010": {
+          "count": 60,
+          "fraction": 0.00026350461133069827
+        },
+        "0011": {
+          "count": 1254,
+          "fraction": 0.0055072463768115944
+        },
+        "0100": {
+          "count": 114906,
+          "fraction": 0.5046376811594203
+        },
+        "0101": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "0110": {
+          "count": 367,
+          "fraction": 0.0016117698726394378
+        },
+        "0111": {
+          "count": 16302,
+          "fraction": 0.07159420289855073
+        },
+        "1000": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1001": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1010": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1011": {
+          "count": 2,
+          "fraction": 8.78348704435661e-06
+        },
+        "1100": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1101": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1110": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "1111": {
+          "count": 40752,
+          "fraction": 0.17897233201581028
+        }
+      },
+      "source_n": [
+        48,
+        64
+      ]
+    }
+  }
+}
